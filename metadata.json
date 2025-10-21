@@ -1,0 +1,5 @@
+{
+  "name": "AI Photo Editor",
+  "description": "Upload a photo, provide a text prompt, and let the Gemini 'Nano Banana' model edit the image for you. You can then download the result.",
+  "requestFramePermissions": []
+}
