@@ -1,5 +1,5 @@
 {
-  "name": "AI Photo Editor",
-  "description": "Upload a photo, provide a text prompt, and let the Gemini 'Nano Banana' model edit the image for you. You can then download the result.",
+  "name": "AI Photo & Image Studio",
+  "description": "Edit your photos or create new images from scratch. Upload a photo and provide a text prompt to edit it, or just provide a prompt to generate a new image with the Gemini 'Nano Banana' model.",
   "requestFramePermissions": []
 }

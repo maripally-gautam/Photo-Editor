@@ -1,6 +1,52 @@
 
 import { GoogleGenAI, Modality } from '@google/genai';
 
+export const generateImageWithGemini = async (
+    prompt: string
+): Promise<string> => {
+    if (!process.env.API_KEY) {
+        throw new Error("API_KEY environment variable is not configured.");
+    }
+
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+    const textPart = {
+        text: prompt,
+    };
+
+    try {
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash-image', // 'Nano Banana' model
+            contents: {
+                parts: [textPart],
+            },
+            config: {
+                responseModalities: [Modality.IMAGE],
+            },
+        });
+
+        // Find the image part in the response
+        for (const part of response.candidates[0].content.parts) {
+            if (part.inlineData && part.inlineData.mimeType.startsWith('image/')) {
+                return part.inlineData.data;
+            }
+        }
+
+        throw new Error("No image data found in the API response.");
+    } catch (error: any) {
+        console.error("Gemini API call failed:", error);
+        // Provide a more user-friendly error message
+        if (error.message.includes('deadline')) {
+            throw new Error("The request timed out. Please try again.");
+        }
+        if(error.message.includes('API key not valid')){
+             throw new Error("The provided API key is not valid. Please check your configuration.");
+        }
+        throw new Error("Failed to communicate with the AI model.");
+    }
+};
+
+
 export const editImageWithGemini = async (
     base64ImageDataUrl: string,
     mimeType: string,
