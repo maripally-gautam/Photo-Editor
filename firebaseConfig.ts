@@ -1,6 +1,14 @@
-// DEPRECATED: This file is no longer in use and is intentionally left blank for security reasons.
-// The application's configuration is now managed exclusively through environment variables
-// defined in a local .env file (for development) or your hosting provider's settings.
-//
-// Please refer to the services/config.ts file to see how these variables are used.
-// DO NOT ADD ANY SECRET KEYS TO THIS FILE.
+// WARNING: Do not commit this file with your actual API keys to a public repository.
+// This file is intended for local development only. For production, you should use
+// environment variables provided by your hosting service.
+
+// Please replace the placeholder values below with your actual Firebase project credentials.
+export const firebaseCredentials = {
+  apiKey:"AIzaSyAPsM7lddZMortUjL77JQdKV4tkFuNmjws",
+  authDomain:"ai-photo-studio-d537d.firebaseapp.com",
+  projectId:"ai-photo-studio-d537d",
+  storageBucket:"ai-photo-studio-d537d.firebasestorage.app",
+  messagingSenderId:"557644061131",
+  appId:"1:557644061131:web:ad8b13fd79efdc722c7e4e",
+  measurementId:"G-LWE7NS2GZ9"
+};

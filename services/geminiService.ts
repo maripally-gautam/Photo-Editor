@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, Modality, Chat, Part, Type } from '@google/genai';
 import { geminiApiKey } from './config';
 
@@ -164,8 +165,8 @@ export const sendChatMessage = async (message: string, purpose: 'general' | 'pro
 export const sendStudyMessage = async (parts: Part[]): Promise<string> => {
     try {
         const chatInstance = getChatInstance('study');
-        // FIX: The `sendMessage` method for chat expects an array of Parts directly for multipart messages, not an object with a 'parts' property.
-        const response = await chatInstance.sendMessage(parts);
+        // FIX: The `sendMessage` method for chat expects an object with a `message` property that contains the array of Parts.
+        const response = await chatInstance.sendMessage({ message: parts });
         return response.text;
     } catch (error) {
         handleApiError(error, 'study assistant response');
