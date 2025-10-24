@@ -24,7 +24,8 @@ export const generateImageWithGemini = async (prompt: string): Promise<string> =
     try {
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
-            contents: [{ text: prompt }],
+            // FIX: The 'contents' parameter for multi-modal requests should be an object with a 'parts' array.
+            contents: { parts: [{ text: prompt }] },
             config: { responseModalities: [Modality.IMAGE] },
         });
 
@@ -56,7 +57,8 @@ export const editImageWithGemini = async (
     try {
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
-            contents: [imagePart, textPart],
+            // FIX: The 'contents' parameter for multi-modal requests should be an object with a 'parts' array.
+            contents: { parts: [imagePart, textPart] },
             config: { responseModalities: [Modality.IMAGE] },
         });
 
@@ -86,7 +88,8 @@ export const analyzeImageForSuggestions = async (
     try {
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',
-            contents: [imagePart, textPart],
+            // FIX: The 'contents' parameter for multi-modal requests should be an object with a 'parts' array.
+            contents: { parts: [imagePart, textPart] },
             config: {
                 responseMimeType: 'application/json',
                 responseSchema: {
@@ -161,7 +164,8 @@ export const sendChatMessage = async (message: string, purpose: 'general' | 'pro
 export const sendStudyMessage = async (parts: Part[]): Promise<string> => {
     try {
         const chatInstance = getChatInstance('study');
-        const response = await chatInstance.sendMessage({ parts });
+        // FIX: The `sendMessage` method for chat expects an array of Parts directly for multipart messages, not an object with a 'parts' property.
+        const response = await chatInstance.sendMessage(parts);
         return response.text;
     } catch (error) {
         handleApiError(error, 'study assistant response');
