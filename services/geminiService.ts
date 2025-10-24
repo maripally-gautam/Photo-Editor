@@ -1,12 +1,8 @@
 import { GoogleGenAI, Modality, Chat, Part, Type } from '@google/genai';
+import { geminiApiKey } from './config';
 
-// Helper to check for API key
-const checkApiKey = () => {
-    if (!process.env.API_KEY) {
-        throw new Error("API_KEY environment variable is not configured.");
-    }
-    return new GoogleGenAI({ apiKey: process.env.API_KEY });
-};
+// Helper to get an AI instance. The API key is guaranteed to be present by the App component guard.
+const getAi = () => new GoogleGenAI({ apiKey: geminiApiKey! });
 
 // Helper for error handling
 const handleApiError = (error: any, context: string) => {
@@ -24,7 +20,7 @@ const handleApiError = (error: any, context: string) => {
 // --- Image Generation and Editing ---
 
 export const generateImageWithGemini = async (prompt: string): Promise<string> => {
-    const ai = checkApiKey();
+    const ai = getAi();
     try {
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash-image',
@@ -50,7 +46,7 @@ export const editImageWithGemini = async (
     mimeType: string,
     prompt: string
 ): Promise<string> => {
-    const ai = checkApiKey();
+    const ai = getAi();
     const rawBase64Data = base64ImageDataUrl.split(',')[1];
     if (!rawBase64Data) throw new Error("Invalid image data URL provided.");
     
@@ -80,7 +76,7 @@ export const analyzeImageForSuggestions = async (
     base64ImageDataUrl: string,
     mimeType: string,
 ): Promise<string[]> => {
-    const ai = checkApiKey();
+    const ai = getAi();
     const rawBase64Data = base64ImageDataUrl.split(',')[1];
     if (!rawBase64Data) throw new Error("Invalid image data URL provided.");
 
@@ -121,7 +117,7 @@ let promptGeneratorChat: Chat | null = null;
 let studyAssistantChat: Chat | null = null;
 
 function getChatInstance(purpose: 'general' | 'prompt_generation' | 'study'): Chat {
-    const ai = checkApiKey();
+    const ai = getAi();
     switch (purpose) {
         case 'prompt_generation':
             if (!promptGeneratorChat) {
@@ -177,7 +173,7 @@ export const sendStudyMessage = async (parts: Part[]): Promise<string> => {
 // --- Study Assistant specific services ---
 
 export const generateSpeech = async (text: string): Promise<string> => {
-    const ai = checkApiKey();
+    const ai = getAi();
     try {
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash-preview-tts",
@@ -207,7 +203,7 @@ export interface QuizQuestion {
 }
 
 export const generateQuiz = async (context: string): Promise<QuizQuestion[]> => {
-    const ai = checkApiKey();
+    const ai = getAi();
     const prompt = `Based on the following context, generate a multiple-choice quiz with 3 questions. For each question, provide 4 options and clearly indicate the correct answer. Context: "${context}"`;
     try {
         const response = await ai.models.generateContent({

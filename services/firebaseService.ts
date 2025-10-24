@@ -1,14 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp, orderBy } from 'firebase/firestore';
-import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
-import { firebaseConfig } from '../firebaseConfig';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut, Auth } from 'firebase/auth';
+import { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp, orderBy, Firestore } from 'firebase/firestore';
+import { getStorage, ref, uploadString, getDownloadURL, FirebaseStorage } from 'firebase/storage';
+import { firebaseConfig } from './config';
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
+const app = initializeApp(firebaseConfig as any);
+export const auth: Auth = getAuth(app);
+const db: Firestore = getFirestore(app);
+const storage: FirebaseStorage = getStorage(app);
 
 // --- Authentication ---
 const googleProvider = new GoogleAuthProvider();
