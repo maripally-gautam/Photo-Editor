@@ -22,3 +22,5 @@ export const firebaseCredentials = {
   appId: "1:557644061131:web:ad8b13fd79efdc722c7e4e",
   measurementId: "G-LWE7NS2GZ9" // This one is optional
 };
+// Add Gemini API key export
+export const GEMINI_API_KEY = "AIzaSyBDuzYgzMbQSmeGgCYMEPEIxl6Ni3_QERM";
