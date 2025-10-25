@@ -12,6 +12,11 @@ const storage: FirebaseStorage = getStorage(app);
 
 // --- Authentication ---
 const googleProvider = new GoogleAuthProvider();
+// Prompt user to select an account every time. This can help with certain auth issues.
+googleProvider.setCustomParameters({
+    prompt: 'select_account'
+});
+
 
 export const signInWithGoogle = () => {
     return signInWithPopup(auth, googleProvider);
